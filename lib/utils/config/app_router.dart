@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/screens/details_screen.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/screens/search_screen.dart';
+import '../../presentation/screens/details_screen.dart';
+import '../../presentation/screens/search_screen.dart';
 
 import '../../presentation/screens/home_screen.dart';
 
