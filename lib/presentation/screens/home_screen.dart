@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/widget/chips_widget.dart';
+import 'package:flutter_news_app_clean_architecture/utils/config/app_router.dart';
+import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 import '../widget/article_card_widget.dart';
 import '../../utils/colors_app.dart';
 
@@ -24,8 +27,39 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: ArticleCardWidget(
-        onClickCard: () {},
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ! Title
+          Container(
+              margin: const EdgeInsets.only(top: mediumSize, left: mediumSize),
+              child: const Text(
+                "Top Headlines",
+                style: TextStyle(
+                    fontSize: mediumTextSize, fontWeight: FontWeight.bold),
+              )),
+          const SizedBox(
+            height: normalSize,
+          ),
+
+          // ! chips
+          ChipWidget(chipData: const [
+            "Sport",
+            "Sport",
+            "Sport",
+            "Sport",
+            "Sport",
+            "Sport",
+            "Sport",
+          ], onSelected: (value) {}),
+
+          // ! article card
+          ArticleCardWidget(
+            onClickCard: () {
+              context.router.push(const DetailsRoute());
+            },
+          ),
+        ],
       ),
     );
   }

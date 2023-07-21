@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 
 import '../../utils/colors_app.dart';
 
@@ -15,7 +16,7 @@ class ArticleCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onClickCard,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: mediumSize),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -32,9 +33,13 @@ class ArticleCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildText(14, 1, FontWeight.w500, kPrimaryTextColor,
-                          "New York Times"),
-                      _buildText(14, 2, FontWeight.normal, kPrimaryTextColor,
+                      _buildText(mediumTextSize, 1, FontWeight.w500,
+                          kPrimaryTextColor, "New York Times"),
+                      _buildText(
+                          normalTextSize,
+                          2,
+                          FontWeight.normal,
+                          kPrimaryTextColor,
                           "One measure of 'the market' is up 34% this year while another is only up 6%—here's why"),
                       const SizedBox(
                         height: 24,
@@ -43,9 +48,9 @@ class ArticleCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildText(14, 1, FontWeight.normal,
+                          _buildText(smallTextSize, 1, FontWeight.normal,
                               kSecondaryTextColor, "3 weeks ago"),
-                          _buildText(14, 1, FontWeight.normal,
+                          _buildText(smallTextSize, 1, FontWeight.normal,
                               kSecondaryTextColor, "Fir, 18 Feb 2023")
                         ],
                       )
