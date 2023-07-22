@@ -35,17 +35,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ! Title
-            Container(
-              margin: const EdgeInsets.only(top: mediumSize, left: mediumSize),
-              child: const Text(
-                "Top Headlines",
-                style: TextStyle(
-                  fontSize: largeFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             const SizedBox(
               height: normalSize,
             ),
