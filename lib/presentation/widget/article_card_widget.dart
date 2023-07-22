@@ -29,14 +29,12 @@ class ArticleCardWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     textDirection: TextDirection.ltr,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildText(mediumTextSize, 1, FontWeight.w500,
+                      _buildText(mediumFontSize, 1, FontWeight.w500,
                           kPrimaryTextColor, "New York Times"),
                       _buildText(
-                          normalTextSize,
+                          normalFontSize,
                           2,
                           FontWeight.normal,
                           kPrimaryTextColor,
@@ -48,9 +46,9 @@ class ArticleCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildText(smallTextSize, 1, FontWeight.normal,
+                          _buildText(smallFontSize, 1, FontWeight.normal,
                               kSecondaryTextColor, "3 weeks ago"),
-                          _buildText(smallTextSize, 1, FontWeight.normal,
+                          _buildText(smallFontSize, 1, FontWeight.normal,
                               kSecondaryTextColor, "Fir, 18 Feb 2023")
                         ],
                       )

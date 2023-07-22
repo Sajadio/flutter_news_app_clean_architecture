@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 
 class ChipWidget extends StatefulWidget {
@@ -36,7 +37,8 @@ class _ChipWidgetState extends State<ChipWidget> {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
         child: ChoiceChip(
-          selectedColor: Colors.black,
+          backgroundColor: kSecondaryColor,
+          selectedColor: kPrimaryColor,
           selected: selectedIndex == index,
           label: Text(
             label,

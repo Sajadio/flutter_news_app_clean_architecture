@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       routerConfig: _appRouter.config(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         fontFamily: GoogleFonts.roboto().fontFamily,
       ),
     );

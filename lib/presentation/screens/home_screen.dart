@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/widget/chips_widget.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/widget/swiper_card_widget.dart';
 import 'package:flutter_news_app_clean_architecture/utils/config/app_router.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
-import '../widget/article_card_widget.dart';
 import '../../utils/colors_app.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -22,44 +24,107 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.bookmark_outline),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.router.push(const SearchRoute());
+            },
             icon: const Icon(Icons.search),
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ! Title
-          Container(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ! Title
+            Container(
               margin: const EdgeInsets.only(top: mediumSize, left: mediumSize),
               child: const Text(
                 "Top Headlines",
                 style: TextStyle(
-                    fontSize: mediumTextSize, fontWeight: FontWeight.bold),
-              )),
-          const SizedBox(
-            height: normalSize,
-          ),
+                  fontSize: largeFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: normalSize,
+            ),
 
-          // ! chips
-          ChipWidget(chipData: const [
-            "Sport",
-            "Sport",
-            "Sport",
-            "Sport",
-            "Sport",
-            "Sport",
-            "Sport",
-          ], onSelected: (value) {}),
+            // ! chips
+            ChipWidget(chipData: const [
+              "Sport",
+              "Sport",
+              "Sport",
+              "Sport",
+              "Sport",
+              "Sport",
+              "Sport",
+            ], onSelected: (value) {}),
 
-          // ! article card
-          ArticleCardWidget(
-            onClickCard: () {
-              context.router.push(const DetailsRoute());
-            },
-          ),
-        ],
+            const SizedBox(
+              height: 16,
+            ),
+
+            SizedBox(
+              height: 400,
+              child: Swiper(
+                itemHeight: double.infinity,
+                itemWidth: 300,
+                itemBuilder: (BuildContext context, int index) {
+                  return SwiperCardWidget(
+                    onClick: () {
+                      context.router.push(const DetailsRoute());
+                    },
+                  );
+                },
+                itemCount: 3,
+                scrollDirection: Axis.horizontal,
+                layout: SwiperLayout.STACK,
+              ),
+            ),
+
+            const SizedBox(
+              height: 16,
+            ),
+
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // ! Title
+                  const Text(
+                    "Latest News",
+                    style: TextStyle(
+                      fontSize: largeFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  //! Button
+                  TextButton(
+                    onPressed: () {
+                      print("Button pressed!");
+                    },
+                    child: Text(
+                      "See all",
+                      style: TextStyle(
+                        fontSize: smallFontSize,
+                        color: kSecondaryTextColor,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            ArticleCardWidget(
+              onClickCard: () {
+                context.router.push(const DetailsRoute());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
