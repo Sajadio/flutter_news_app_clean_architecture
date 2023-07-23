@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
-import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
+import '../../utils/colors_app.dart';
+import '../../utils/constant.dart';
 
 class ChipWidget extends StatefulWidget {
   const ChipWidget({

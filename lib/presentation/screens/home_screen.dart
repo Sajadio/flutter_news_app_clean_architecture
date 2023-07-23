@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/widget/chips_widget.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/widget/swiper_card_widget.dart';
-import 'package:flutter_news_app_clean_architecture/utils/config/app_router.dart';
-import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
+import '../widget/chips_widget.dart';
+import '../widget/swiper_card_widget.dart';
+import '../../utils/config/app_router.dart';
+import '../../utils/constant.dart';
 import '../../utils/colors_app.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -105,12 +104,6 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-            ),
-
-            ArticleCardWidget(
-              onClickCard: () {
-                context.router.push(const DetailsRoute());
-              },
             ),
           ],
         ),
