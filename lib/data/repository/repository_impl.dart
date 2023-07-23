@@ -12,20 +12,14 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._localDataSource);
 
   @override
-  Future<void> addArticlesToSearchHistory(List<Article> articles) async {
-    List<ArticleEntity> articlesEntities = mapArticleToArticleEntity(articles);
-    await _localDataSource.addArticlesToSearchHistory(articlesEntities);
-  }
-
-  @override
   Stream<List<Article>> getAllSavedArticles() {
     return _localDataSource.getAllSavedArticles().map(
         (articlesEntities) => mapArticleEntityToArticles(articlesEntities));
   }
 
   @override
-  Future<void> deleteHistoryArticles() {
-    return _localDataSource.deleteHistoryArticles();
+  Future<void> deleteAllArticles() {
+    return _localDataSource.deleteAllArticles();
   }
 
   @override

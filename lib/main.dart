@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_articles_to_search_history_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_all_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_history_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/locater/locater.dart';
@@ -32,10 +31,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LocalArticleCubit>(
           create: (context) => LocalArticleCubit(
-            locator<AddHistoryArticlesUseCase>(),
             locator<AddArticleCaseCase>(),
-            locator<GetAllHistoryArticlesUseCase>(),
-            locator<DeleteHistoryArticlesUseCase>(),
+            locator<GetAllSavedArticlesUseCase>(),
+            locator<DeleteAllArticlesUseCase>(),
             locator<DeleteArticleCaseCase>(),
             locator<DidArticleSaveUseCase>(),
           )..getAllSavedArticles(),

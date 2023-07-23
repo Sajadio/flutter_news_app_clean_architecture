@@ -4,9 +4,6 @@ import 'package:flutter_news_app_clean_architecture/data/dataSource/local_data_s
 
 @dao
 abstract class ArticleDao implements LocalDataSource {
-  @override
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> addArticlesToSearchHistory(List<ArticleEntity> articlesEntity);
 
   @override
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -18,7 +15,7 @@ abstract class ArticleDao implements LocalDataSource {
 
   @override
   @Query('DELETE FROM ArticleEntity')
-  Future<void> deleteHistoryArticles();
+  Future<void> deleteAllArticles();
 
   @override
   @delete

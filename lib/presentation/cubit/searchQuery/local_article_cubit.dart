@@ -7,9 +7,8 @@ import 'package:equatable/equatable.dart';
 
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_articles_to_search_history_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_history_articles_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_all_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
 
@@ -17,25 +16,18 @@ part 'local_article_state.dart';
 
 class LocalArticleCubit extends Cubit<LocalArticleState> {
   LocalArticleCubit(
-    this._addArticlesToSearchHistoryUseCase,
     this._addArticleUseCase,
     this._getAllSavedArticlesUseCase,
-    this._deleteHistoryArticlesUseCase,
+    this._deleteAllArticlesUseCase,
     this._deleteArticleUseCase,
     this._didArticleSaveUseCase,
   ) : super(LocalArticleLoading());
 
-  final AddHistoryArticlesUseCase _addArticlesToSearchHistoryUseCase;
   final AddArticleCaseCase _addArticleUseCase;
-  final GetAllHistoryArticlesUseCase _getAllSavedArticlesUseCase;
-  final DeleteHistoryArticlesUseCase _deleteHistoryArticlesUseCase;
+  final GetAllSavedArticlesUseCase _getAllSavedArticlesUseCase;
+  final DeleteAllArticlesUseCase _deleteAllArticlesUseCase;
   final DeleteArticleCaseCase _deleteArticleUseCase;
   final DidArticleSaveUseCase _didArticleSaveUseCase;
-
-  void addArticlesToSearchHistory(List<Article> newsletter) async {
-    emit(LocalArticleLoading());
-    await _addArticlesToSearchHistoryUseCase.call(newsletter);
-  }
 
   void addArticle(Article article) async {
     emit(LocalArticleLoading());
@@ -49,8 +41,8 @@ class LocalArticleCubit extends Cubit<LocalArticleState> {
     }, onError: (error) {});
   }
 
-  void deleteHistoryArticles() async {
-    _deleteHistoryArticlesUseCase.call();
+  void deleteAllArticles() async {
+    _deleteAllArticlesUseCase.call();
   }
 
   void deleteArticle(Article article) async {

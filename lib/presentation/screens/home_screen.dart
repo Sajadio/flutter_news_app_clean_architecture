@@ -21,7 +21,9 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: kPrimaryColor,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.router.push(const SaveRoute());
+            },
             icon: const Icon(Icons.bookmark_outline),
           ),
           IconButton(
@@ -41,22 +43,21 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: normalSize,
+                      height: mediumSize,
                     ),
 
                     // ! chips
                     ChipWidget(chipData: const [
-                      "Sport",
-                      "Sport",
-                      "Sport",
-                      "Sport",
-                      "Sport",
-                      "Sport",
+                      "General",
+                      "Business",
+                      "Enterprise",
+                      "Health",
+                      "Since",
                       "Sport",
                     ], onSelected: (value) {}),
 
                     const SizedBox(
-                      height: 16,
+                      height: mediumSize,
                     ),
 
                     SizedBox(
@@ -80,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(
-                      height: 16,
+                      height: mediumSize,
                     ),
 
                     Container(

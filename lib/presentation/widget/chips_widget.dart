@@ -25,33 +25,41 @@ class _ChipWidgetState extends State<ChipWidget> {
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: buildChips(),
+        children: _buildChips(),
       ),
     );
   }
 
-  List<Widget> buildChips() {
+  List<Widget> _buildChips() {
     return widget.chipData.asMap().entries.map((entry) {
       final int index = entry.key;
       final String label = entry.value;
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
-        child: ChoiceChip(
-          backgroundColor: kSecondaryColor,
-          selectedColor: kPrimaryColor,
-          selected: selectedIndex == index,
-          label: Text(
-            label,
-            style: TextStyle(
-              color: selectedIndex == index ? Colors.white : Colors.black,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: normalSize),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(mediumSize),
+            color: selectedIndex == index ? kPrimaryColor : kSecondaryColor,
+          ),
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                selectedIndex = index;
+                widget.onSelected.call(entry.value);
+              });
+            },
+            child: Text(
+              label,
+              style: TextStyle(
+                color: selectedIndex == index ? Colors.white : Colors.black,
+                fontSize: normalFontSize,
+                fontWeight: selectedIndex == index
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+              ),
             ),
           ),
-          onSelected: (selected) {
-            setState(() {
-              selectedIndex = index;
-              widget.onSelected.call(entry.value);
-            });
-          },
         ),
       );
     }).toList();

@@ -3,9 +3,8 @@ import 'package:flutter_news_app_clean_architecture/data/dataSource/local_data_s
 import 'package:flutter_news_app_clean_architecture/data/repository/repository_impl.dart';
 import 'package:flutter_news_app_clean_architecture/domain/repository/repository.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_articles_to_search_history_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_history_articles_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_all_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
@@ -23,16 +22,12 @@ Future<void> initializeDependencies() async {
     RepositoryImpl(locator<LocalDataSource>()),
   );
 
-  locator.registerSingleton<AddHistoryArticlesUseCase>(
-    AddHistoryArticlesUseCase(locator<Repository>()),
+  locator.registerSingleton<GetAllSavedArticlesUseCase>(
+    GetAllSavedArticlesUseCase(locator<Repository>()),
   );
 
-  locator.registerSingleton<GetAllHistoryArticlesUseCase>(
-    GetAllHistoryArticlesUseCase(locator<Repository>()),
-  );
-
-  locator.registerSingleton<DeleteHistoryArticlesUseCase>(
-    DeleteHistoryArticlesUseCase(locator<Repository>()),
+  locator.registerSingleton<DeleteAllArticlesUseCase>(
+    DeleteAllArticlesUseCase(locator<Repository>()),
   );
 
   locator.registerSingleton<DeleteArticleCaseCase>(

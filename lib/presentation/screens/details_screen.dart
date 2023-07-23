@@ -6,6 +6,7 @@ import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
+import 'package:flutter_news_app_clean_architecture/utils/format.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:url_launcher/link.dart';
 
@@ -65,7 +66,7 @@ class DetailsScreen extends StatelessWidget {
                   normalFontSize,
                   FontWeight.normal,
                   kSecondaryTextColor,
-                  article.publishedAt,
+                  "${getFormattedRelativeTime(article.publishedAt ?? "")}\t ${getFormattedDateTime(article.publishedAt ?? "")}",
                 ),
                 const SizedBox(height: normalSize),
                 // _buildImage(

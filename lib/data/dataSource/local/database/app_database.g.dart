@@ -164,7 +164,7 @@ class _$ArticleDao extends ArticleDao {
   }
 
   @override
-  Future<void> deleteHistoryArticles() async {
+  Future<void> deleteAllArticles() async {
     await _queryAdapter.queryNoReturn('DELETE FROM ArticleEntity');
   }
 
@@ -174,13 +174,6 @@ class _$ArticleDao extends ArticleDao {
         'SELECT EXISTS (SELECT 1 FROM ArticleEntity WHERE url = ?1 LIMIT 1)',
         mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
         arguments: [url]);
-  }
-
-  @override
-  Future<void> addArticlesToSearchHistory(
-      List<ArticleEntity> articlesEntity) async {
-    await _articleEntityInsertionAdapter.insertList(
-        articlesEntity, OnConflictStrategy.replace);
   }
 
   @override

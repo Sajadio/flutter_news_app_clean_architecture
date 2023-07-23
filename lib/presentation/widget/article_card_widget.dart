@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
+import 'package:flutter_news_app_clean_architecture/utils/format.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/colors_app.dart';
 import '../../utils/constant.dart';
@@ -25,13 +27,13 @@ class ArticleCardWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              // _buildImage(article.urlToImage),
+              _buildImage(
+                  "https://static.standard.co.uk/2023/07/01/19/4056694d8ea887ca533ac5e336ce4e2eY29udGVudHNlYXJjaGFwaSwxNjg4MzIwMjYz-2.18069972.jpg?width=1200&width=1200&auto=webp&quality=75"),
               Expanded(
                 child: Column(
-                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildText(mediumFontSize, 1, FontWeight.w500,
@@ -46,18 +48,35 @@ class ArticleCardWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: _buildText(smallFontSize, 1, FontWeight.normal,
-                              kSecondaryTextColor, article.publishedAt),
+                          child: _buildText(
+                              smallFontSize,
+                              1,
+                              FontWeight.normal,
+                              kSecondaryTextColor,
+                              getFormattedRelativeTime(
+                                  article.publishedAt ?? "")),
                         ),
                         Expanded(
-                          child: _buildText(smallFontSize, 1, FontWeight.normal,
-                              kSecondaryTextColor, article.publishedAt),
+                          child: _buildText(
+                              smallFontSize,
+                              1,
+                              FontWeight.normal,
+                              kSecondaryTextColor,
+                              getFormattedDateTime(article.publishedAt ?? "")),
                         )
                       ],
                     )
                   ],
                 ),
-              )
+              ),
+              IconButton(
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context, () => null);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: kPrimaryColor,
+                  )),
             ],
           ),
         ),
@@ -93,6 +112,37 @@ class ArticleCardWidget extends StatelessWidget {
         style:
             TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color),
       ),
+    );
+  }
+
+
+
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, Function() onDelete) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete history articles'),
+          content:
+              const Text('Are you sure you want to delete history articles?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onDelete();
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
