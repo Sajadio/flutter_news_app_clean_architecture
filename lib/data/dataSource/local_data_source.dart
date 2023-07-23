@@ -1,8 +1,10 @@
-import 'package:flutter_news_app_clean_architecture/data/dataSource/local/entities/history_newsletter_entity.dart';
+import 'package:flutter_news_app_clean_architecture/data/dataSource/local/entities/article_entity.dart';
 
 abstract class LocalDataSource {
-  Future<void> addItemsToSearchHistory(
-      List<HistoryNewsletterEntity> newsLetter);
-  Stream<List<HistoryNewsletterEntity>> getAllHistoryHistoryNewsletter();
-  Future<void> deleteHistoryNewsLetter();
+  Future<void> addArticlesToSearchHistory(List<ArticleEntity> newsLetter);
+  Future<void> addArticle(ArticleEntity articleEntity);
+  Stream<List<ArticleEntity>> getAllSavedArticles();
+  Future<void> deleteHistoryArticles();
+  Future<void> deleteArticle(ArticleEntity articleEntity);
+  Future<bool?> didArticleSave(String url);
 }

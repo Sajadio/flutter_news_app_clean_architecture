@@ -1,39 +1,75 @@
 // ignore_for_file: unused_field, avoid_print
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/add_items_to_search_history_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/delete_history_newletter_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/get_all_history_newsletter_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_articles_to_search_history_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_history_articles_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
 
 part 'local_article_state.dart';
 
 class LocalArticleCubit extends Cubit<LocalArticleState> {
   LocalArticleCubit(
-    this._addNewsletterToSearchHistoryUseCase,
-    this._getAllNewsletterHistoryUseCase,
-    this._deleteHistoryNewsLetterUseCase,
+    this._addArticlesToSearchHistoryUseCase,
+    this._addArticleUseCase,
+    this._getAllSavedArticlesUseCase,
+    this._deleteHistoryArticlesUseCase,
+    this._deleteArticleUseCase,
+    this._didArticleSaveUseCase,
   ) : super(LocalArticleLoading());
 
-  final AddHistoryNewsletterUserCase _addNewsletterToSearchHistoryUseCase;
-  final GetAllHistoryNewsletterCase _getAllNewsletterHistoryUseCase;
-  final DeleteHistoryNewsLetterUseCase _deleteHistoryNewsLetterUseCase;
+  final AddHistoryArticlesUseCase _addArticlesToSearchHistoryUseCase;
+  final AddArticleCaseCase _addArticleUseCase;
+  final GetAllHistoryArticlesUseCase _getAllSavedArticlesUseCase;
+  final DeleteHistoryArticlesUseCase _deleteHistoryArticlesUseCase;
+  final DeleteArticleCaseCase _deleteArticleUseCase;
+  final DidArticleSaveUseCase _didArticleSaveUseCase;
 
-  void addNewsletterToSearchHistory(List<Article> newsletter) async {
+  void addArticlesToSearchHistory(List<Article> newsletter) async {
     emit(LocalArticleLoading());
-    await _addNewsletterToSearchHistoryUseCase.call(newsletter);
+    await _addArticlesToSearchHistoryUseCase.call(newsletter);
   }
 
-  void getAllHistoryHistoryNewsLetter() {
+  void addArticle(Article article) async {
     emit(LocalArticleLoading());
-    _getAllNewsletterHistoryUseCase.call().listen((articles) {
+    await _addArticleUseCase.call(article);
+  }
+
+  void getAllSavedArticles() {
+    emit(LocalArticleLoading());
+    _getAllSavedArticlesUseCase.call().listen((articles) {
       emit(LocalArticleSuccess(articles: articles));
     }, onError: (error) {});
   }
 
-  void deleteHistoryNewsLetter() async {
-    _deleteHistoryNewsLetterUseCase.call();
+  void deleteHistoryArticles() async {
+    _deleteHistoryArticlesUseCase.call();
+  }
+
+  void deleteArticle(Article article) async {
+    _deleteArticleUseCase.call(article);
+  }
+
+  bool didArticleSave(String url) {
+    bool? isSaved = false;
+    final completer = Completer<bool>();
+
+    _didArticleSaveUseCase.call(url).then((value) {
+      isSaved = value;
+      completer.complete(isSaved);
+    }).catchError((error) {
+      completer.completeError(error);
+    });
+
+    print(isSaved);
+
+    return isSaved!;
   }
 }

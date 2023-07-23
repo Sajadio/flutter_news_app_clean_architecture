@@ -14,7 +14,7 @@ class ArticleCardWidget extends StatelessWidget {
 
   final Article article;
 
-  final Function(int) onClickCard;
+  final Function(int?) onClickCard;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ArticleCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              _buildImage(article.image),
+              // _buildImage(article.urlToImage),
               Expanded(
                 child: Column(
                   textDirection: TextDirection.ltr,
@@ -47,11 +47,11 @@ class ArticleCardWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildText(smallFontSize, 1, FontWeight.normal,
-                              kSecondaryTextColor, article.time),
+                              kSecondaryTextColor, article.publishedAt),
                         ),
                         Expanded(
                           child: _buildText(smallFontSize, 1, FontWeight.normal,
-                              kSecondaryTextColor, article.time),
+                              kSecondaryTextColor, article.publishedAt),
                         )
                       ],
                     )
@@ -65,11 +65,11 @@ class ArticleCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(String imageUrl) {
+  Widget _buildImage(String? imageUrl) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Image.network(
-        imageUrl,
+        imageUrl ?? "",
         fit: BoxFit.cover,
         width: 140,
         height: 120,
@@ -82,12 +82,12 @@ class ArticleCardWidget extends StatelessWidget {
     int maxLine,
     FontWeight fontWeight,
     Color color,
-    String title,
+    String? title,
   ) {
     return Container(
       margin: const EdgeInsets.only(top: 8, left: 8),
       child: Text(
-        title,
+        title ?? "",
         overflow: TextOverflow.ellipsis,
         maxLines: maxLine,
         style:

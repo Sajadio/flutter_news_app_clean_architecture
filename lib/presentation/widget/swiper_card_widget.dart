@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 
 class SwiperCardWidget extends StatelessWidget {
   const SwiperCardWidget({
@@ -38,7 +39,7 @@ class SwiperCardWidget extends StatelessWidget {
               "Lilly Joins Biogen as Alzheimer’s Drugs Finally Emerge",
               maxLines: 3,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: largeFontSize,
                 color: Colors.white,
                 overflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.bold,

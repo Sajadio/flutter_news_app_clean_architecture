@@ -2,12 +2,12 @@ import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
 
 import 'package:flutter_news_app_clean_architecture/domain/repository/repository.dart';
 
-class AddHistoryNewsletterUserCase {
+class AddArticleCaseCase {
   final Repository _repo;
 
-  AddHistoryNewsletterUserCase(this._repo);
+  AddArticleCaseCase(this._repo);
 
-  Future<void> call(List<Article> newsLetter) {
-    return _repo.addNewsletterToSearchHistory(newsLetter);
+  Future<void> call(Article article) {
+    return _repo.addArticle(article);
   }
 }

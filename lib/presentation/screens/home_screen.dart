@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
 import '../widget/chips_widget.dart';
 import '../widget/swiper_card_widget.dart';
 import '../../utils/config/app_router.dart';
@@ -30,83 +32,96 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: normalSize,
-            ),
-
-            // ! chips
-            ChipWidget(chipData: const [
-              "Sport",
-              "Sport",
-              "Sport",
-              "Sport",
-              "Sport",
-              "Sport",
-              "Sport",
-            ], onSelected: (value) {}),
-
-            const SizedBox(
-              height: 16,
-            ),
-
-            SizedBox(
-              height: 400,
-              child: Swiper(
-                itemHeight: double.infinity,
-                itemWidth: 300,
-                itemBuilder: (BuildContext context, int index) {
-                  return SwiperCardWidget(
-                    onClick: () {
-                      context.router.push(const DetailsRoute());
-                    },
-                  );
-                },
-                itemCount: 3,
-                scrollDirection: Axis.horizontal,
-                layout: SwiperLayout.STACK,
-              ),
-            ),
-
-            const SizedBox(
-              height: 16,
-            ),
-
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // ! Title
-                  const Text(
-                    "Latest News",
-                    style: TextStyle(
-                      fontSize: largeFontSize,
-                      fontWeight: FontWeight.bold,
+      body: BlocBuilder<LocalArticleCubit, LocalArticleState>(
+        builder: (context, state) {
+          switch (state.runtimeType) {
+            case LocalArticleSuccess:
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: normalSize,
                     ),
-                  ),
 
-                  //! Button
-                  TextButton(
-                    onPressed: () {
-                      print("Button pressed!");
-                    },
-                    child: Text(
-                      "See all",
-                      style: TextStyle(
-                        fontSize: smallFontSize,
-                        color: kSecondaryTextColor,
+                    // ! chips
+                    ChipWidget(chipData: const [
+                      "Sport",
+                      "Sport",
+                      "Sport",
+                      "Sport",
+                      "Sport",
+                      "Sport",
+                      "Sport",
+                    ], onSelected: (value) {}),
+
+                    const SizedBox(
+                      height: 16,
+                    ),
+
+                    SizedBox(
+                      height: 400,
+                      child: Swiper(
+                        itemHeight: double.infinity,
+                        itemWidth: 300,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SwiperCardWidget(
+                            onClick: () {
+                              context.router.push(
+                                DetailsRoute(article: state.articles[index]),
+                              );
+                            },
+                          );
+                        },
+                        itemCount: 3,
+                        scrollDirection: Axis.horizontal,
+                        layout: SwiperLayout.STACK,
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+
+                    const SizedBox(
+                      height: 16,
+                    ),
+
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // ! Title
+                          const Text(
+                            "Latest News",
+                            style: TextStyle(
+                              fontSize: largeFontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          //! Button
+                          TextButton(
+                            onPressed: () {
+                              print("Button pressed!");
+                            },
+                            child: Text(
+                              "See all",
+                              style: TextStyle(
+                                fontSize: smallFontSize,
+                                color: kSecondaryTextColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            default:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+          }
+        },
       ),
     );
   }

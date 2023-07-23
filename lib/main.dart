@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/add_items_to_search_history_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/delete_history_newletter_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/domain/usecase/history_newsletter/get_all_history_newsletter_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_articles_to_search_history_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_history_articles_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/locater/locater.dart';
 import 'presentation/cubit/searchQuery/local_article_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,10 +32,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LocalArticleCubit>(
           create: (context) => LocalArticleCubit(
-            locator<AddHistoryNewsletterUserCase>(),
-            locator<GetAllHistoryNewsletterCase>(),
-            locator<DeleteHistoryNewsLetterUseCase>(),
-          ),
+            locator<AddHistoryArticlesUseCase>(),
+            locator<AddArticleCaseCase>(),
+            locator<GetAllHistoryArticlesUseCase>(),
+            locator<DeleteHistoryArticlesUseCase>(),
+            locator<DeleteArticleCaseCase>(),
+            locator<DidArticleSaveUseCase>(),
+          )..getAllSavedArticles(),
         )
       ],
       child: MaterialApp.router(
