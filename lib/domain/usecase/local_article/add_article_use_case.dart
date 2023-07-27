@@ -7,7 +7,7 @@ class AddArticleCaseCase {
 
   AddArticleCaseCase(this._repo);
 
-  Future<void> call(Article article) {
+  void call(Article article) {
     return _repo.addArticle(article);
   }
 }

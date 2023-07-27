@@ -1,13 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import '../widget/chips_widget.dart';
-import '../widget/swiper_card_widget.dart';
 import '../../utils/config/app_router.dart';
 import '../../utils/constant.dart';
 import '../../utils/colors_app.dart';
-import 'package:card_swiper/card_swiper.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -15,6 +14,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ArticleCubit>(context);
+    cubit.refreshCacheData(cubit.chipsItems[cubit.selectedIndex]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("News 360"),
@@ -34,95 +36,65 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: BlocBuilder<LocalArticleCubit, LocalArticleState>(
-        builder: (context, state) {
-          switch (state.runtimeType) {
-            case LocalArticleSuccess:
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: mediumSize,
-                    ),
-
-                    // ! chips
-                    ChipWidget(chipData: const [
-                      "General",
-                      "Business",
-                      "Enterprise",
-                      "Health",
-                      "Since",
-                      "Sport",
-                    ], onSelected: (value) {}),
-
-                    const SizedBox(
-                      height: mediumSize,
-                    ),
-
-                    SizedBox(
-                      height: 400,
-                      child: Swiper(
-                        itemHeight: double.infinity,
-                        itemWidth: 300,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SwiperCardWidget(
-                            onClick: () {
-                              context.router.push(
-                                DetailsRoute(article: state.articles[index]),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: mediumSize,
+          ),
+          // ! Title
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              "Top Headlines",
+              style: TextStyle(
+                fontSize: largeFontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: normalSize,
+          ),
+          // ! chips
+          ChipWidget(onSelected: (category) {
+            cubit.refreshCacheData(category);
+          }),
+          const SizedBox(
+            height: mediumSize,
+          ),
+          BlocBuilder<ArticleCubit, ArticleState>(
+            builder: (context, state) {
+              switch (state.runtimeType) {
+                case DataStateSuccess:
+                  return Expanded(
+                    child: state.articles.isEmpty
+                        ? const Text("Not Data, check your connection")
+                        : ListView.builder(
+                            itemCount: state.articles.length,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: mediumSize),
+                                child: ArticleCardWidget(
+                                  showButton: false,
+                                  article: state.articles[index],
+                                  onClickCard: (id) {
+                                    // context.router.push(DetailsRoute(id: id));
+                                  },
+                                ),
                               );
-                            },
-                          );
-                        },
-                        itemCount: 3,
-                        scrollDirection: Axis.horizontal,
-                        layout: SwiperLayout.STACK,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: mediumSize,
-                    ),
-
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // ! Title
-                          const Text(
-                            "Latest News",
-                            style: TextStyle(
-                              fontSize: largeFontSize,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-
-                          //! Button
-                          TextButton(
-                            onPressed: () {
-                              print("Button pressed!");
-                            },
-                            child: Text(
-                              "See all",
-                              style: TextStyle(
-                                fontSize: smallFontSize,
-                                color: kSecondaryTextColor,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            default:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-          }
-        },
+                            }),
+                  );
+                default:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

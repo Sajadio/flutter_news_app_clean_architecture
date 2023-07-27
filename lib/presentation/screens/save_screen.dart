@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
+import 'package:flutter_news_app_clean_architecture/utils/config/app_router.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 
 @RoutePage()
@@ -16,13 +17,18 @@ class SaveScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ArticleCubit>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Saved articles"),
         actions: [
           IconButton(
             onPressed: () {
-              _showDeleteConfirmationDialog(context, () => null);
+              _showDeleteConfirmationDialog(
+                context,
+                () => {cubit.deleteAllArticles()},
+              );
             },
             icon: const Icon(Icons.delete),
           )
@@ -34,11 +40,15 @@ class SaveScreen extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: mediumSize),
-            BlocBuilder<LocalArticleCubit, LocalArticleState>(
+            BlocBuilder<ArticleCubit, ArticleState>(
               builder: (context, state) {
                 switch (state.runtimeType) {
-                  case LocalArticleSuccess:
-                    return _buildArticles(state.articles);
+                  case DataStateSuccess:
+                    return _buildArticles(state.articles, (id) {
+                      cubit.deleteArticle(state.articles.first);
+                    }, (id) {
+                      context.router.push(DetailsRoute(id: id));
+                    });
                   default:
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -52,7 +62,11 @@ class SaveScreen extends HookWidget {
     );
   }
 
-  Widget _buildArticles(List<Article> articles) {
+  Widget _buildArticles(
+    List<Article?> articles,
+    Function(Article) onDeleteItem,
+    Function(int) onClickItem,
+  ) {
     if (articles.isEmpty) {
       return Center(
         child: SizedBox(
@@ -68,10 +82,9 @@ class SaveScreen extends HookWidget {
           itemCount: articles.length,
           itemBuilder: (context, index) {
             return ArticleCardWidget(
-              article: articles[index],
-              onClickCard: (id) {
-                print(id);
-              },
+               showButton: true,
+              article: articles[index]!,
+              onClickCard: (id) => onClickItem.call(id),
             );
           },
         ),
@@ -80,7 +93,9 @@ class SaveScreen extends HookWidget {
   }
 
   Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, Function() onDelete) async {
+    BuildContext context,
+    Function() onDelete,
+  ) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {

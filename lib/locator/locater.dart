@@ -1,5 +1,9 @@
+import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_news_app_clean_architecture/data/dataSource/local/database/app_database.dart';
 import 'package:flutter_news_app_clean_architecture/data/dataSource/local_data_source.dart';
+import 'package:flutter_news_app_clean_architecture/data/dataSource/remote/service/api_service.dart';
+import 'package:flutter_news_app_clean_architecture/data/dataSource/remote_data_source.dart';
 import 'package:flutter_news_app_clean_architecture/data/repository/repository_impl.dart';
 import 'package:flutter_news_app_clean_architecture/domain/repository/repository.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
@@ -7,6 +11,9 @@ import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_all_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_article_by_id_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_cache_data_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/refresh_cache_data_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 import 'package:get_it/get_it.dart';
 
@@ -18,8 +25,15 @@ Future<void> initializeDependencies() async {
 
   locator.registerSingleton<LocalDataSource>(db.articleDao);
 
+  final dio = Dio();
+  dio.interceptors.add(AwesomeDioInterceptor());
+  locator.registerSingleton<RemoteDataSource>(ApiService(dio));
+
   locator.registerSingleton<Repository>(
-    RepositoryImpl(locator<LocalDataSource>()),
+    RepositoryImpl(
+      locator<LocalDataSource>(),
+      locator<RemoteDataSource>(),
+    ),
   );
 
   locator.registerSingleton<GetAllSavedArticlesUseCase>(
@@ -37,7 +51,20 @@ Future<void> initializeDependencies() async {
   locator.registerSingleton<AddArticleCaseCase>(
     AddArticleCaseCase(locator<Repository>()),
   );
+
   locator.registerSingleton<DidArticleSaveUseCase>(
     DidArticleSaveUseCase(locator<Repository>()),
+  );
+
+  locator.registerSingleton<GetArticleByIdUseCase>(
+    GetArticleByIdUseCase(locator<Repository>()),
+  );
+
+  locator.registerSingleton<GetCacheCaseCase>(
+    GetCacheCaseCase(locator<Repository>()),
+  );
+
+  locator.registerSingleton<RefreshCacheCaseCase>(
+    RefreshCacheCaseCase(locator<Repository>()),
   );
 }

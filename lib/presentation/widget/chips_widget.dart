@@ -1,60 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import '../../utils/colors_app.dart';
 import '../../utils/constant.dart';
 
-class ChipWidget extends StatefulWidget {
+class ChipWidget extends StatelessWidget {
   const ChipWidget({
     Key? key,
-    required this.chipData,
     required this.onSelected,
   }) : super(key: key);
 
-  final List<String> chipData;
   final void Function(String) onSelected;
 
   @override
-  State<ChipWidget> createState() => _ChipWidgetState();
-}
-
-class _ChipWidgetState extends State<ChipWidget> {
-  int selectedIndex = 0;
-  @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<ArticleCubit>(context);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: mediumSize),
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _buildChips(),
+        children: _buildChips(cubit),
       ),
     );
   }
 
-  List<Widget> _buildChips() {
-    return widget.chipData.asMap().entries.map((entry) {
+  List<Widget> _buildChips(ArticleCubit cubit) {
+    return cubit.chipsItems.asMap().entries.map((entry) {
       final int index = entry.key;
       final String label = entry.value;
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
+        margin: const EdgeInsets.symmetric(horizontal: smallSize),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: normalSize),
+          height: 40,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(mediumSize),
-            color: selectedIndex == index ? kPrimaryColor : kSecondaryColor,
+            borderRadius: BorderRadius.circular(normalSize),
+            color:
+                cubit.selectedIndex == index ? kPrimaryColor : kSecondaryColor,
           ),
           child: TextButton(
             onPressed: () {
-              setState(() {
-                selectedIndex = index;
-                widget.onSelected.call(entry.value);
-              });
+              cubit.selectedIndex = index;
+              onSelected.call(entry.value);
             },
             child: Text(
               label,
               style: TextStyle(
-                color: selectedIndex == index ? Colors.white : Colors.black,
+                letterSpacing: 0.4,
+                color:
+                    cubit.selectedIndex == index ? Colors.white : Colors.black,
                 fontSize: normalFontSize,
-                fontWeight: selectedIndex == index
+                fontWeight: cubit.selectedIndex == index
                     ? FontWeight.bold
                     : FontWeight.normal,
               ),

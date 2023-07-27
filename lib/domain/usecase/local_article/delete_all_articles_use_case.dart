@@ -5,7 +5,7 @@ class DeleteAllArticlesUseCase {
 
   DeleteAllArticlesUseCase(this._repo);
 
-  Future<void> call() {
+  void call() {
     return _repo.deleteAllArticles();
   }
 }

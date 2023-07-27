@@ -85,7 +85,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `ArticleEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `source` TEXT, `author` TEXT, `title` TEXT, `description` TEXT, `url` TEXT, `urlToImage` TEXT, `publishedAt` TEXT, `content` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `CacheArticleEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `author` TEXT, `title` TEXT, `description` TEXT, `url` TEXT, `urlToImage` TEXT, `publishedAt` TEXT, `content` TEXT, `category` TEXT)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `ArticleEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `author` TEXT, `title` TEXT, `urlToImage` TEXT, `publishedAt` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -103,38 +105,42 @@ class _$ArticleDao extends ArticleDao {
   _$ArticleDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _articleEntityInsertionAdapter = InsertionAdapter(
+  )   : _queryAdapter = QueryAdapter(database),
+        _cacheArticleEntityInsertionAdapter = InsertionAdapter(
             database,
-            'ArticleEntity',
-            (ArticleEntity item) => <String, Object?>{
+            'CacheArticleEntity',
+            (CacheArticleEntity item) => <String, Object?>{
                   'id': item.id,
-                  'source': _sourceConverter.encode(item.source),
                   'author': item.author,
                   'title': item.title,
                   'description': item.description,
                   'url': item.url,
                   'urlToImage': item.urlToImage,
                   'publishedAt': item.publishedAt,
-                  'content': item.content
-                },
-            changeListener),
+                  'content': item.content,
+                  'category': item.category
+                }),
+        _articleEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'ArticleEntity',
+            (ArticleEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'author': item.author,
+                  'title': item.title,
+                  'urlToImage': item.urlToImage,
+                  'publishedAt': item.publishedAt
+                }),
         _articleEntityDeletionAdapter = DeletionAdapter(
             database,
             'ArticleEntity',
             ['id'],
             (ArticleEntity item) => <String, Object?>{
                   'id': item.id,
-                  'source': _sourceConverter.encode(item.source),
                   'author': item.author,
                   'title': item.title,
-                  'description': item.description,
-                  'url': item.url,
                   'urlToImage': item.urlToImage,
-                  'publishedAt': item.publishedAt,
-                  'content': item.content
-                },
-            changeListener);
+                  'publishedAt': item.publishedAt
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -142,25 +148,52 @@ class _$ArticleDao extends ArticleDao {
 
   final QueryAdapter _queryAdapter;
 
+  final InsertionAdapter<CacheArticleEntity>
+      _cacheArticleEntityInsertionAdapter;
+
   final InsertionAdapter<ArticleEntity> _articleEntityInsertionAdapter;
 
   final DeletionAdapter<ArticleEntity> _articleEntityDeletionAdapter;
 
   @override
-  Stream<List<ArticleEntity>> getAllSavedArticles() {
-    return _queryAdapter.queryListStream('SELECT * FROM ArticleEntity',
-        mapper: (Map<String, Object?> row) => ArticleEntity(
+  Future<List<CacheArticleEntity>?> getCacheDataByCategory(
+      String category) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM CacheArticleEntity WHERE category = ?1',
+        mapper: (Map<String, Object?> row) => CacheArticleEntity(
             id: row['id'] as int?,
-            source: _sourceConverter.decode(row['source'] as String),
             author: row['author'] as String?,
             title: row['title'] as String?,
             description: row['description'] as String?,
             url: row['url'] as String?,
             urlToImage: row['urlToImage'] as String?,
             publishedAt: row['publishedAt'] as String?,
-            content: row['content'] as String?),
-        queryableName: 'ArticleEntity',
-        isView: false);
+            content: row['content'] as String?,
+            category: row['category'] as String?),
+        arguments: [category]);
+  }
+
+  @override
+  Future<ArticleEntity?> getArticleById(int id) async {
+    return _queryAdapter.query('SELECT * FROM ArticleEntity WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => ArticleEntity(
+            id: row['id'] as int?,
+            author: row['author'] as String?,
+            title: row['title'] as String?,
+            urlToImage: row['urlToImage'] as String?,
+            publishedAt: row['publishedAt'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<ArticleEntity>?> getAllSavedArticles() async {
+    return _queryAdapter.queryList('SELECT * FROM ArticleEntity',
+        mapper: (Map<String, Object?> row) => ArticleEntity(
+            id: row['id'] as int?,
+            author: row['author'] as String?,
+            title: row['title'] as String?,
+            urlToImage: row['urlToImage'] as String?,
+            publishedAt: row['publishedAt'] as String?));
   }
 
   @override
@@ -169,24 +202,27 @@ class _$ArticleDao extends ArticleDao {
   }
 
   @override
-  Future<bool?> didArticleSave(String url) async {
+  Future<bool?> didArticleSave(int id) async {
     return _queryAdapter.query(
-        'SELECT EXISTS (SELECT 1 FROM ArticleEntity WHERE url = ?1 LIMIT 1)',
+        'SELECT EXISTS (SELECT 1 FROM ArticleEntity WHERE id = ?1 LIMIT 1)',
         mapper: (Map<String, Object?> row) => (row.values.first as int) != 0,
-        arguments: [url]);
+        arguments: [id]);
   }
 
   @override
-  Future<void> addArticle(ArticleEntity articleEntity) async {
+  Future<void> addCacheData(List<CacheArticleEntity> entities) async {
+    await _cacheArticleEntityInsertionAdapter.insertList(
+        entities, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> addArticle(ArticleEntity entities) async {
     await _articleEntityInsertionAdapter.insert(
-        articleEntity, OnConflictStrategy.replace);
+        entities, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> deleteArticle(ArticleEntity articleEntity) async {
-    await _articleEntityDeletionAdapter.delete(articleEntity);
+  Future<void> deleteArticle(ArticleEntity entities) async {
+    await _articleEntityDeletionAdapter.delete(entities);
   }
 }
-
-// ignore_for_file: unused_element
-final _sourceConverter = SourceConverter();

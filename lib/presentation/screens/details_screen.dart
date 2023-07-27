@@ -1,50 +1,51 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_share/flutter_share.dart';
+import 'package:url_launcher/link.dart';
 
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 import 'package:flutter_news_app_clean_architecture/utils/format.dart';
-import 'package:flutter_share/flutter_share.dart';
-import 'package:url_launcher/link.dart';
 
 @RoutePage()
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({
     Key? key,
-    required this.article,
+    required this.id,
   }) : super(key: key);
 
-  final Article article;
+  final int id;
 
   @override
   Widget build(BuildContext context) {
-    final articleCubit = BlocProvider.of<LocalArticleCubit>(context);
+    final articleCubit = BlocProvider.of<ArticleCubit>(context);
+    articleCubit.getArticleById(id);
 
-    return BlocBuilder<LocalArticleCubit, LocalArticleState>(
+    return BlocBuilder<ArticleCubit, ArticleState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              article.author ?? "",
+              state.articles.first.author ?? "",
               style: const TextStyle(
                 color: Colors.white,
               ),
             ),
             actions: [
               IconButton(
-                icon: articleCubit.didArticleSave(article.url!)
+                icon: articleCubit.didArticleSave(state.articles.first.id!)
                     ? const Icon(Icons.bookmark)
                     : const Icon(Icons.bookmark_add_outlined),
                 onPressed: () {
-                  articleCubit.addArticle(article);
+                  articleCubit.addArticle(state.articles.first);
                 },
               ),
               IconButton(
                 onPressed: () {
-                  shareUrl(article);
+                  shareUrl(state.articles.first);
                 },
                 icon: const Icon(Icons.share),
               )
@@ -60,13 +61,13 @@ class DetailsScreen extends StatelessWidget {
                   largeFontSize,
                   FontWeight.bold,
                   kPrimaryTextColor,
-                  article.title,
+                  state.articles.first.title,
                 ),
                 _buildText(
-                  normalFontSize,
+                  mediumFontSize,
                   FontWeight.normal,
                   kSecondaryTextColor,
-                  "${getFormattedRelativeTime(article.publishedAt ?? "")}\t ${getFormattedDateTime(article.publishedAt ?? "")}",
+                  "${getFormattedRelativeTime(state.articles.first.publishedAt ?? "")}\t ${getFormattedDateTime(state.articles.first.publishedAt ?? "")}",
                 ),
                 const SizedBox(height: normalSize),
                 // _buildImage(
@@ -77,24 +78,24 @@ class DetailsScreen extends StatelessWidget {
                   height: normalSize,
                 ),
                 _buildText(
-                  normalFontSize,
+                  mediumFontSize,
                   FontWeight.normal,
                   kSecondaryTextColor,
-                  article.description,
+                  state.articles.first.description,
                 ),
                 _buildText(
-                  normalFontSize,
+                  mediumFontSize,
                   FontWeight.normal,
                   kSecondaryTextColor,
-                  article.content,
+                  state.articles.first.content,
                 ),
                 Link(
-                    uri: Uri.parse(article.url ?? ""),
+                    uri: Uri.parse(state.articles.first.url ?? ""),
                     target: LinkTarget.defaultTarget,
                     builder: (context, openLink) => TextButton(
                           onPressed: openLink,
                           child: _buildText(
-                            normalFontSize,
+                            mediumFontSize,
                             FontWeight.normal,
                             Colors.blue,
                             "Read more",

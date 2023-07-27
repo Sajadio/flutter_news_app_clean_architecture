@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
-import 'package:flutter_news_app_clean_architecture/domain/model/source.dart';
-import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/local_article_cubit.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
@@ -18,7 +17,7 @@ class SearchScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textEditingController = TextEditingController();
-    final localArticleCubit = BlocProvider.of<LocalArticleCubit>(context)
+    final localArticleCubit = BlocProvider.of<ArticleCubit>(context)
       ..getAllSavedArticles();
 
     return Scaffold(
@@ -53,10 +52,10 @@ class SearchScreen extends HookWidget {
                 ],
               ),
               const SizedBox(height: normalSize),
-              BlocBuilder<LocalArticleCubit, LocalArticleState>(
+              BlocBuilder<ArticleCubit, ArticleState>(
                 builder: (context, state) {
                   switch (state.runtimeType) {
-                    case LocalArticleSuccess:
+                    case DataStateSuccess:
                       return _buildArticles(state.articles);
                     default:
                       return const Center(
@@ -98,7 +97,7 @@ class SearchScreen extends HookWidget {
     );
   }
 
-  Widget _buildArticles(List<Article> articles) {
+  Widget _buildArticles(List<Article?> articles) {
     if (articles.isEmpty) {
       return Center(
         child: SizedBox(
@@ -114,7 +113,8 @@ class SearchScreen extends HookWidget {
           itemCount: articles.length,
           itemBuilder: (context, index) {
             return ArticleCardWidget(
-              article: articles[index],
+              showButton: false,
+              article: articles[index]!,
               onClickCard: (id) {
                 print(id);
               },
@@ -124,6 +124,4 @@ class SearchScreen extends HookWidget {
       );
     }
   }
-
- 
 }

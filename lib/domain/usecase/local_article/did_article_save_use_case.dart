@@ -4,7 +4,7 @@ class DidArticleSaveUseCase {
   final Repository _repo;
   DidArticleSaveUseCase(this._repo);
 
-  Future<bool?> call(String url)  {
-    return  _repo.didArticleSave(url);
+  Future<bool?> call(int id)  {
+    return  _repo.didArticleSave(id);
   }
 }

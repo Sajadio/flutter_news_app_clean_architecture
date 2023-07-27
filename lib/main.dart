@@ -4,9 +4,11 @@ import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/did_article_save_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_all_saved_articles_use_case.dart';
-import 'package:flutter_news_app_clean_architecture/locater/locater.dart';
-import 'presentation/cubit/searchQuery/local_article_cubit.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_article_by_id_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_cache_data_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/refresh_cache_data_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/locator/locater.dart';
+import 'presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'utils/colors_app.dart';
@@ -29,14 +31,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LocalArticleCubit>(
-          create: (context) => LocalArticleCubit(
+        BlocProvider<ArticleCubit>(
+          create: (context) => ArticleCubit(
             locator<AddArticleCaseCase>(),
             locator<GetAllSavedArticlesUseCase>(),
             locator<DeleteAllArticlesUseCase>(),
             locator<DeleteArticleCaseCase>(),
             locator<DidArticleSaveUseCase>(),
-          )..getAllSavedArticles(),
+            locator<GetArticleByIdUseCase>(),
+            locator<RefreshCacheCaseCase>(),
+            locator<GetCacheCaseCase>(),
+          ),
         )
       ],
       child: MaterialApp.router(
@@ -45,7 +50,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(color: kPrimaryColor),
-          fontFamily: GoogleFonts.roboto().fontFamily,
         ),
       ),
     );

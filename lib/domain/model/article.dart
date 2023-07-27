@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import 'source.dart';
-
 class Article extends Equatable {
   final int? id;
   final String? author;
@@ -10,7 +8,6 @@ class Article extends Equatable {
   final String? publishedAt;
   final String? description;
   final String? url;
-  final Source? source;
   final String? content;
   const Article({
     this.id,
@@ -20,7 +17,6 @@ class Article extends Equatable {
     this.publishedAt,
     this.description,
     this.url,
-    this.source,
     this.content,
   });
 
@@ -31,7 +27,6 @@ class Article extends Equatable {
         title,
         urlToImage,
         publishedAt,
-        source,
         content,
       ];
 }

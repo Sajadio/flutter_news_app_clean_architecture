@@ -21,7 +21,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: DetailsScreen(
           key: args.key,
-          article: args.article,
+          id: args.id,
         ),
       );
     },
@@ -31,16 +31,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
-    SearchRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SearchScreen(),
-      );
-    },
     SaveRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SaveScreen(),
+      );
+    },
+    SearchRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SearchScreen(),
       );
     },
   };
@@ -51,13 +51,13 @@ abstract class _$AppRouter extends RootStackRouter {
 class DetailsRoute extends PageRouteInfo<DetailsRouteArgs> {
   DetailsRoute({
     Key? key,
-    required Article article,
+    required int id,
     List<PageRouteInfo>? children,
   }) : super(
           DetailsRoute.name,
           args: DetailsRouteArgs(
             key: key,
-            article: article,
+            id: id,
           ),
           initialChildren: children,
         );
@@ -71,16 +71,16 @@ class DetailsRoute extends PageRouteInfo<DetailsRouteArgs> {
 class DetailsRouteArgs {
   const DetailsRouteArgs({
     this.key,
-    required this.article,
+    required this.id,
   });
 
   final Key? key;
 
-  final Article article;
+  final int id;
 
   @override
   String toString() {
-    return 'DetailsRouteArgs{key: $key, article: $article}';
+    return 'DetailsRouteArgs{key: $key, id: $id}';
   }
 }
 
@@ -99,20 +99,6 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SearchScreen]
-class SearchRoute extends PageRouteInfo<void> {
-  const SearchRoute({List<PageRouteInfo>? children})
-      : super(
-          SearchRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SearchRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [SaveScreen]
 class SaveRoute extends PageRouteInfo<void> {
   const SaveRoute({List<PageRouteInfo>? children})
@@ -122,6 +108,20 @@ class SaveRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SaveRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<void> {
+  const SearchRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
