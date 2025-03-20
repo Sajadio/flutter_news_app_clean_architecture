@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app_clean_architecture/confic/theme/theme_manager.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/add_article_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_all_articles_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/delete_article_use_case%20copy.dart';
@@ -12,7 +13,7 @@ import 'presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'utils/colors_app.dart';
-import 'utils/config/app_router.dart';
+import 'confic/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,10 +35,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _appRouter.config(),
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: AppBarTheme(color: kPrimaryColor),
-        ),
+        theme: ThemeManager.lightTheme,
       ),
     );
   }

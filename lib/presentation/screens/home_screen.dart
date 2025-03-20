@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import '../widget/chips_widget.dart';
-import '../../utils/config/app_router.dart';
+import '../../confic/router/app_router.dart';
 import '../../utils/constant.dart';
 import '../../utils/colors_app.dart';
 

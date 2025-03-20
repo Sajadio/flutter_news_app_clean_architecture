@@ -8,7 +8,7 @@ import 'package:flutter_news_app_clean_architecture/domain/model/article.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/widget/article_card_widget.dart';
 import 'package:flutter_news_app_clean_architecture/utils/colors_app.dart';
-import 'package:flutter_news_app_clean_architecture/utils/config/app_router.dart';
+import 'package:flutter_news_app_clean_architecture/confic/router/app_router.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 
 @RoutePage()
