@@ -32,16 +32,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ArticleCubit>(
-          create: (context) => ArticleCubit(
-            locator<AddArticleCaseCase>(),
-            locator<GetAllSavedArticlesUseCase>(),
-            locator<DeleteAllArticlesUseCase>(),
-            locator<DeleteArticleCaseCase>(),
-            locator<DidArticleSaveUseCase>(),
-            locator<GetArticleByIdUseCase>(),
-            locator<RefreshCacheCaseCase>(),
-            locator<GetCacheCaseCase>(),
-          ),
+          create: (context) => locator<ArticleCubit>(),
         )
       ],
       child: MaterialApp.router(

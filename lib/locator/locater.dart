@@ -1,5 +1,6 @@
 import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app_clean_architecture/data/dataSource/local/database/app_database.dart';
 import 'package:flutter_news_app_clean_architecture/data/dataSource/local_data_source.dart';
 import 'package:flutter_news_app_clean_architecture/data/dataSource/remote/service/api_service.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_article_by_id_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/get_cache_data_use_case.dart';
 import 'package:flutter_news_app_clean_architecture/domain/usecase/local_article/refresh_cache_data_use_case.dart';
+import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
 import 'package:flutter_news_app_clean_architecture/utils/constant.dart';
 import 'package:get_it/get_it.dart';
 
@@ -67,4 +69,15 @@ Future<void> initializeDependencies() async {
   locator.registerSingleton<RefreshCacheCaseCase>(
     RefreshCacheCaseCase(locator<Repository>()),
   );
+
+  locator.registerFactory<ArticleCubit>(() => ArticleCubit(
+        locator<AddArticleCaseCase>(),
+        locator<GetAllSavedArticlesUseCase>(),
+        locator<DeleteAllArticlesUseCase>(),
+        locator<DeleteArticleCaseCase>(),
+        locator<DidArticleSaveUseCase>(),
+        locator<GetArticleByIdUseCase>(),
+        locator<RefreshCacheCaseCase>(),
+        locator<GetCacheCaseCase>(),
+      ));
 }
