@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app_clean_architecture/presentation/cubit/searchQuery/article_cubit.dart';
@@ -19,21 +20,31 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("News 360"),
-        backgroundColor: kPrimaryColor,
+        title: const Text(
+          "Newsly",
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        ),
         actions: [
-          IconButton(
-            onPressed: () {
-              context.router.push(const SaveRoute());
-            },
-            icon: const Icon(Icons.bookmark_outline),
+          Container(
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: kSecondaryColor),
+            child: IconButton(
+              onPressed: () {
+                context.router.push(const SaveRoute());
+              },
+              icon: const Icon(CupertinoIcons.bookmark),
+            ),
           ),
-          IconButton(
-            onPressed: () {
-              context.router.push(const SearchRoute());
-            },
-            icon: const Icon(Icons.search),
-          )
+          Container(
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: kSecondaryColor),
+            child: IconButton(
+              onPressed: () {
+                context.router.push(const SearchRoute());
+              },
+              icon: const Icon(CupertinoIcons.search),
+            ),
+          ),
         ],
       ),
       body: Column(
@@ -43,16 +54,7 @@ class HomeScreen extends StatelessWidget {
             height: mediumSize,
           ),
           // ! Title
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              "Top Headlines",
-              style: TextStyle(
-                fontSize: largeFontSize,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          _buildTextTitle("Breaking News", context, () {}),
           const SizedBox(
             height: normalSize,
           ),
@@ -96,6 +98,21 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildTextTitle(
+      String title, BuildContext context, Function() viewAll) {
+    return Row(
+      children: [
+        Text(title, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold)),
+        const Spacer(),
+        TextButton(
+          onPressed: viewAll,
+          child:
+              Text("View all", style: Theme.of(context).textTheme.labelLarge),
+        ),
+      ],
     );
   }
 }
