@@ -29,12 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ArticleCubit>(
-          create: (context) => locator<ArticleCubit>(),
-        )
-      ],
+    return  BlocProvider<ArticleCubit>(
+      create: (context) => locator<ArticleCubit>(),
       child: MaterialApp.router(
         routerConfig: _appRouter.config(),
         debugShowCheckedModeBanner: false,

@@ -15,6 +15,7 @@ abstract class ArticleState extends Equatable {
   List<Object> get props => [];
 }
 
+class DataStateInitial extends ArticleState {}
 class DataStateLoading extends ArticleState {}
 
 class DataStateSuccess extends ArticleState {
