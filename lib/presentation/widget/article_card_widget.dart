@@ -21,66 +21,71 @@ class ArticleCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onClickCard(article.id!),
+    return IntrinsicHeight(
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _buildImage(article.urlToImage),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildText(largeFontSize, 1, FontWeight.w500,
-                        kPrimaryTextColor, article.author),
-                    _buildText(mediumFontSize, 2, FontWeight.normal,
-                        kPrimaryTextColor, article.title),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: _buildText(
-                              normalFontSize,
-                              1,
-                              FontWeight.normal,
-                              kSecondaryTextColor,
-                              getFormattedRelativeTime(
-                                  article.publishedAt ?? "")),
-                        ),
-                        Expanded(
-                          child: _buildText(
-                              normalFontSize,
-                              1,
-                              FontWeight.normal,
-                              kSecondaryTextColor,
-                              getFormattedDateTime(article.publishedAt ?? "")),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+        clipBehavior: Clip.antiAlias,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(normalSize)),
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Expanded(
+                child: GestureDetector(
+                    onTap: () {
+                      onClickCard(article.id!);
+                    },
+                    child: _buildImage(article.urlToImage))),
+            const SizedBox(width: normalSize),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    article.author.toString(),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextTheme.of(context)
+                        .bodyLarge!
+                        .copyWith(color: kSecondaryTextColor),
+                  ),
+                  Text(
+                    article.title.toString(),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextTheme.of(context)
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        getFormattedRelativeTime(article.publishedAt ?? ""),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextTheme.of(context)
+                            .labelSmall!
+                            .copyWith(color: kSecondaryTextColor),
+                      )),
+                      Expanded(
+                          child: Text(
+                        getFormattedDateTime(article.publishedAt ?? ""),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextTheme.of(context)
+                            .labelSmall!
+                            .copyWith(color: kSecondaryTextColor),
+                      )),
+                    ],
+                  )
+                ],
               ),
-              showButton
-                  ? IconButton(
-                      onPressed: () {
-                        _showDeleteConfirmationDialog(context, () => null);
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: kPrimaryColor,
-                      ))
-                  : Container()
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -88,72 +93,24 @@ class ArticleCardWidget extends StatelessWidget {
 
   Widget _buildImage(String? imageUrl) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(normalSize),
       child: imageUrl != null && imageUrl.isNotEmpty
           ? CachedNetworkImage(
               imageUrl: imageUrl,
-              width: 140,
-              height: 120,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const SizedBox(
-                width: 140,
-                height: 120,
-                child: CircularProgressIndicator(),
+              width: 200,
+              height: 150,
+              fit: BoxFit.fill,
+              placeholder: (context, url) => SizedBox(
+                width: 200,
+                height: 200,
+                child: Image.network(url),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             )
           : const Placeholder(
-              fallbackHeight: 120,
-              fallbackWidth: 140,
+              fallbackHeight: 200,
+              fallbackWidth: 200,
             ),
-    );
-  }
-
-  Widget _buildText(
-    double fontSize,
-    int maxLine,
-    FontWeight fontWeight,
-    Color color,
-    String? title,
-  ) {
-    return Container(
-      margin: const EdgeInsets.only(top: 8, left: 8),
-      child: Text(
-        title ?? "",
-        overflow: TextOverflow.ellipsis,
-        maxLines: maxLine,
-        style:
-            TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: color),
-      ),
-    );
-  }
-
-  Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, Function() onDelete) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Delete history articles'),
-          content:
-              const Text('Are you sure you want to delete history articles?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onDelete();
-              },
-              child: const Text('Delete'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

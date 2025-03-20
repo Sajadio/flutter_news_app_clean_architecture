@@ -51,46 +51,127 @@ class ArticleCubit extends Cubit<ArticleState> {
     "science",
   ];
 
+
+  final List<Article> articles = const [
+    Article(
+      id: 1,
+      author: "Elon Musk",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://ichef.bbci.co.uk/news/1024/branded_news/15ab/live/a5c8b260-04c4-11f0-97d3-37df2b293ed1.png",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "ABC News",
+      title:
+      "WATCH: Lightning strike captured by dashboard camera in Atlanta",
+      urlToImage:
+      "https://i.abcnewsfe.com/a/0afe294a-dbd7-49fc-a8da-0548169e06b6/250319_abc_social_atl_lightning_hpMain_16x9.jpg?w=992",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "Charlie Nash",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://www.mediaite.com/wp-content/uploads/2025/03/Tarlov.jpg",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "ABC News",
+      title:
+      "WATCH: Lightning strike captured by dashboard camera in Atlanta",
+      urlToImage:
+      "https://i.abcnewsfe.com/a/0afe294a-dbd7-49fc-a8da-0548169e06b6/250319_abc_social_atl_lightning_hpMain_16x9.jpg?w=992",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "Elon Musk",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://ichef.bbci.co.uk/news/1024/branded_news/15ab/live/a5c8b260-04c4-11f0-97d3-37df2b293ed1.png",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "Elon Musk",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://ichef.bbci.co.uk/news/1024/branded_news/15ab/live/a5c8b260-04c4-11f0-97d3-37df2b293ed1.png",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "ABC News",
+      title:
+      "WATCH: Lightning strike captured by dashboard camera in Atlanta",
+      urlToImage:
+      "https://i.abcnewsfe.com/a/0afe294a-dbd7-49fc-a8da-0548169e06b6/250319_abc_social_atl_lightning_hpMain_16x9.jpg?w=992",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "Charlie Nash",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://www.mediaite.com/wp-content/uploads/2025/03/Tarlov.jpg",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "ABC News",
+      title:
+      "WATCH: Lightning strike captured by dashboard camera in Atlanta",
+      urlToImage:
+      "https://i.abcnewsfe.com/a/0afe294a-dbd7-49fc-a8da-0548169e06b6/250319_abc_social_atl_lightning_hpMain_16x9.jpg?w=992",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+    Article(
+      id: 1,
+      author: "Elon Musk",
+      title:
+      "Tesla's challenges run deeper than 'toxic' controversy around Elon",
+      urlToImage:
+      "https://ichef.bbci.co.uk/news/1024/branded_news/15ab/live/a5c8b260-04c4-11f0-97d3-37df2b293ed1.png",
+      publishedAt: "2025-03-20T00:41:00Z",
+      content:
+      "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
+    ),
+  ];
+
   void refreshCacheData(String? category) {
-    _refreshCacheUseCase.call(chipsItems[selectedIndex]);
-    _getCacheData(category);
+    // _refreshCacheUseCase.call(chipsItems[selectedIndex]);
   }
 
-  void _getCacheData(category) async {
+  void getCacheData() async {
     emit(const DataStateSuccess(articles: [
-      Article(
-        id: 1,
-        author: "Elon Musk",
-        title:
-            "Tesla's challenges run deeper than 'toxic' controversy around Elon",
-        urlToImage:
-            "https://ichef.bbci.co.uk/news/1024/branded_news/15ab/live/a5c8b260-04c4-11f0-97d3-37df2b293ed1.png",
-        publishedAt: "2025-03-20T00:41:00Z",
-        content:
-            "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
-      ),
-      Article(
-        id: 1,
-        author: "ABC News",
-        title:
-            "WATCH: Lightning strike captured by dashboard camera in Atlanta",
-        urlToImage:
-            "https://i.abcnewsfe.com/a/0afe294a-dbd7-49fc-a8da-0548169e06b6/250319_abc_social_atl_lightning_hpMain_16x9.jpg?w=992",
-        publishedAt: "2025-03-20T00:41:00Z",
-        content:
-            "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
-      ),
-      Article(
-        id: 1,
-        author: "Charlie Nash",
-        title:
-            "Tesla's challenges run deeper than 'toxic' controversy around Elon",
-        urlToImage:
-            "https://www.mediaite.com/wp-content/uploads/2025/03/Tarlov.jpg",
-        publishedAt: "2025-03-20T00:41:00Z",
-        content:
-            "f you click 'Accept all', we and our partners, including 239 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+702 chars]",
-      ),
+
     ]));
     // emit(DataStateLoading());
     // final resource = await _getCacheUseCase.call(category);

@@ -9,7 +9,10 @@ abstract class ThemeManager {
       brightness: Brightness.light,
       primaryColor: kPrimaryColor,
       fontFamily: GoogleFonts.lora().fontFamily,
-      textTheme:  TextTheme(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+      ),
+      textTheme: TextTheme(
         titleLarge: TextStyle(
           color: kPrimaryTextColor,
         ),
@@ -27,6 +30,9 @@ abstract class ThemeManager {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black,
+      ),
     );
   }
 }
